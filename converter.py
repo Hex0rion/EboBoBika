@@ -171,7 +171,7 @@ indicators_to_save = [
 ]
 
 # Пример использования
-input_file = '..//Аэрбас.xlsx'  # Укажите путь к вашему Excel-файлу
+input_file = '..//Аэрбас.xlsx'        # Укажите путь к вашему Excel-файлу
 output_file = 'CopyPaste.txt'         # Укажите путь к выходному файлу
 
 result = parse_excel_to_data_array(input_file, 'Лист1', indicators_to_save)
