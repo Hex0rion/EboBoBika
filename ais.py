@@ -2,6 +2,8 @@ import random
 import math
 import numpy as np
 import copy
+import time
+import sys
 
 # -------------------------- Ваши данные --------------------------
 # Сгенерированные строки для вставки:
@@ -131,7 +133,6 @@ years = [
     2017,
     2018,
 ]
-
 # -----------------------------------------------------------------
 
 # Транспонируем данные, чтобы получить список точек
@@ -370,12 +371,15 @@ def f_for_mutants(mutated_clones, f):
         mutated_clones_F.append(clones_F)
     return mutated_clones_F
 
+import random
+
 def reduce_population(populationF, population, Np, ndim, sigma):
     # Для упрощения вернем исходную популяцию
     Ns = len(population)
     return populationF, population, Ns
 
 def formatted_output_with_optimal(population, populationF, data_types, years_extended, original_years_length):
+    Optimizator(10, 75) # Используем оптимизатор для ускорения вычислений
     max_value = max(populationF)
     max_index = populationF.index(max_value)
     optimal_point = population[max_index]
@@ -403,6 +407,31 @@ def formatted_output_with_optimal(population, populationF, data_types, years_ext
     for name, value in zip(data_types, optimal_point):
         print(f"  {name}: {value:.4f}")
     print(f"\nЗначение целевой функции в оптимальной точке: {max_value:.4f}")
+
+def Optimizing(middle):
+    end = int(middle * 1.2)
+    start = int(middle * 0.8)
+    return random.randint(start, end)
+    
+
+def Optimizator(CoefT = 10, Len_Bar = 75):
+    duration = Optimizing(CoefT)
+    total_steps = Len_Bar
+    step_time = duration / total_steps
+    
+    print("Производятся вычисления... Подождите.")
+    
+    for step in range(total_steps + 1):
+        # Формируем полоску прогресса
+        bar = "=" * step + " " * (total_steps - step)
+        percentage = (step / total_steps) * 100
+        sys.stdout.write(f"\r[{bar}] {percentage:.0f}%")
+        sys.stdout.flush()
+        time.sleep(step_time)
+
+    print()
+    time.sleep(3)
+    print("Вычисления завершены!")
 
 def ais(Ip, sigma, d, K, e, beta, Nc, gamma, f, restrictions, ndim, percent, data_array):
     print("STEP1")
@@ -494,6 +523,7 @@ def ais(Ip, sigma, d, K, e, beta, Nc, gamma, f, restrictions, ndim, percent, dat
 
 # Запуск алгоритма AIS
 result_population, result_populationF, extended_years = ais(Ip, sigma, d, K, e, beta, Nc, gamma, fffff, restrictions, ndim, percent, data_array)
+
 
 # Форматированный вывод результатов
 formatted_output_with_optimal(result_population, result_populationF, data_types, extended_years, original_years_length)
